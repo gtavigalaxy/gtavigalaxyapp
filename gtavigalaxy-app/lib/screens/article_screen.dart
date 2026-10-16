@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -85,29 +85,40 @@ class ArticleScreen extends StatelessWidget {
                     ],
                   ),
                   const Divider(height: 28, color: Colors.white12),
-                  Html(
-                    data: post.content,
-                    style: {
-                      'body': Style(
-                        color: Colors.white.withValues(alpha: 0.87),
-                        fontSize: FontSize(16),
-                        lineHeight: const LineHeight(1.55),
-                      ),
-                      'a': Style(color: const Color(0xFFFF7AA8)),
-                      'h1': Style(fontSize: FontSize(22)),
-                      'h2': Style(fontSize: FontSize(20)),
-                      'h3': Style(fontSize: FontSize(18)),
-                      'img': Style(margin: Margins.symmetric(vertical: 12)),
-                      'figure':
-                          Style(margin: Margins.symmetric(vertical: 12)),
+                  HtmlWidget(
+                    post.content,
+                    textStyle: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.87),
+                      fontSize: 16,
+                      height: 1.55,
+                    ),
+                    customStylesBuilder: (element) {
+                      switch (element.localName) {
+                        case 'a':
+                          return {
+                            'color': '#FF7AA8',
+                            'text-decoration': 'none'
+                          };
+                        case 'h1':
+                          return {'font-size': '22px'};
+                        case 'h2':
+                          return {'font-size': '20px'};
+                        case 'h3':
+                          return {'font-size': '18px'};
+                        case 'img':
+                        case 'figure':
+                          return {'margin': '12px 0'};
+                      }
+                      return null;
                     },
-                    onLinkTap: (url, _, __) async {
-                      if (url == null) return;
+                    onTapUrl: (url) async {
                       final uri = Uri.parse(url);
                       if (await canLaunchUrl(uri)) {
                         await launchUrl(uri,
                             mode: LaunchMode.externalApplication);
+                        return true;
                       }
+                      return false;
                     },
                   ),
                   const SizedBox(height: 24),
