@@ -1,25 +1,13 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-
 /// Push notifications via Firebase Cloud Messaging.
 ///
-/// ACTIVATION: drop your `google-services.json` from the Firebase console into
-/// `android/app/` and apply the Google Services Gradle plugin (see README).
-/// Until then, init() safely no-ops and the app works fully without push.
+/// Firebase is not integrated yet: there is no Firebase project and no
+/// `google-services.json`, and the native Firebase SDKs are not bundled
+/// (they crashed the app at startup without a config). This is a no-op
+/// placeholder so the app runs cleanly. Wire up FCM when ready.
 class NotificationService {
   static bool available = false;
 
   static Future<void> init() async {
-    try {
-      await Firebase.initializeApp();
-      final messaging = FirebaseMessaging.instance;
-      await messaging.requestPermission();
-      // Breaking GTA 6 news topic - send to this topic from Firebase console.
-      await messaging.subscribeToTopic('breaking-news');
-      available = true;
-    } catch (_) {
-      // No google-services.json yet: push disabled, everything else works.
-      available = false;
-    }
+    available = false;
   }
 }
