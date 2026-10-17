@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../data/hub_data.dart';
+import '../widgets/starfield.dart';
 
 /// Global countdown to the GTA VI launch with worldwide release times.
 class CountdownScreen extends StatefulWidget {
@@ -46,7 +47,9 @@ class _CountdownScreenState extends State<CountdownScreen> {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: CustomScrollView(
+        child: Starfield(
+          starCount: 110,
+          child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
               child: Column(
@@ -99,6 +102,12 @@ class _CountdownScreenState extends State<CountdownScreen> {
                       style: TextStyle(color: Colors.white54, height: 1.6),
                     ),
                   ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    '✨ Tap the countdown for a surprise',
+                    style: TextStyle(
+                        color: Colors.white24, fontSize: 11),
+                  ),
                   const SizedBox(height: 28),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
@@ -141,6 +150,7 @@ class _CountdownScreenState extends State<CountdownScreen> {
               ),
             ),
           ],
+          ),
         ),
       ),
     );

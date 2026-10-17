@@ -155,6 +155,12 @@ const List<Trailer> trailers = [
     duration: '1:30',
   ),
   Trailer(
+    youtubeId: 'tJbzMqJGH4k',
+    title: 'Grand Theft Auto VI — An Extended Look',
+    date: '27 Aug 2026',
+    duration: '26:48',
+  ),
+  Trailer(
     youtubeId: 'VQRLujxTm3c',
     title: 'Grand Theft Auto VI — Trailer 2',
     date: '6 May 2025',

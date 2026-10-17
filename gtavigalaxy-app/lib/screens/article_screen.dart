@@ -1,10 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/post.dart';
+import '../widgets/app_image.dart';
 import '../widgets/image_viewer.dart';
 
 class ArticleScreen extends StatelessWidget {
@@ -48,13 +48,9 @@ class ArticleScreen extends StatelessWidget {
               background: post.imageUrl != null
                   ? GestureDetector(
                       onTap: () => _openImage(context, post.imageUrl!),
-                      child: CachedNetworkImage(
+                      child: AppImage(
                         imageUrl: post.imageUrl!,
                         fit: BoxFit.cover,
-                        placeholder: (_, __) =>
-                            Container(color: Colors.white10),
-                        errorWidget: (_, __, ___) =>
-                            Container(color: Colors.white10),
                       ),
                     )
                   : Container(

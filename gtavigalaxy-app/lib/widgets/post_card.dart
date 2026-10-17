@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/post.dart';
+import 'app_image.dart';
 import '../screens/article_screen.dart';
 
 class PostCard extends StatelessWidget {
@@ -26,21 +26,10 @@ class PostCard extends StatelessWidget {
             if (post.imageUrl != null)
               AspectRatio(
                 aspectRatio: 16 / 9,
-                child: CachedNetworkImage(
+                child: AppImage(
                   imageUrl: post.imageUrl!,
                   fit: BoxFit.cover,
                   width: double.infinity,
-                  placeholder: (_, __) => Container(
-                    color: Colors.white10,
-                    child: const Center(
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
-                  ),
-                  errorWidget: (_, __, ___) => Container(
-                    color: Colors.white10,
-                    child: const Icon(Icons.broken_image_outlined,
-                        color: Colors.white30),
-                  ),
                 ),
               ),
             Padding(
