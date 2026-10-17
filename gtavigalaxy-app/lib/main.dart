@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'screens/countdown_screen.dart';
+import 'screens/hub_screen.dart';
 import 'screens/search_screen.dart';
 import 'services/notifications.dart';
 
@@ -58,6 +59,7 @@ class _MainNavState extends State<MainNav> {
 
   static const _screens = [
     HomeScreen(),
+    HubScreen(),
     CountdownScreen(),
     SearchScreen(),
   ];
@@ -76,6 +78,11 @@ class _MainNavState extends State<MainNav> {
             icon: Icon(Icons.newspaper_outlined),
             selectedIcon: Icon(Icons.newspaper),
             label: 'News',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.explore_outlined),
+            selectedIcon: Icon(Icons.explore),
+            label: 'Hub',
           ),
           NavigationDestination(
             icon: Icon(Icons.timer_outlined),
