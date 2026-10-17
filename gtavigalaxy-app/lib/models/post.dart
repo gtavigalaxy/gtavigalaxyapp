@@ -8,6 +8,7 @@ class Post {
   final String content;
   final String link;
   final String? imageUrl;
+  final String authorName;
 
   Post({
     required this.id,
@@ -18,6 +19,7 @@ class Post {
     required this.content,
     required this.link,
     this.imageUrl,
+    this.authorName = '',
   });
 
   static String _stripHtml(String html) {
@@ -34,6 +36,15 @@ class Post {
 
   factory Post.fromJson(Map<String, dynamic> json) {
     String? imageUrl;
+    String authorName = '';
+    try {
+      final embedded = json['_embedded'] as Map<String, dynamic>?;
+      final authors = embedded?['author'] as List?;
+      if (authors != null && authors.isNotEmpty) {
+        authorName =
+            (authors.first as Map<String, dynamic>)['name'] as String? ?? '';
+      }
+    } catch (_) {}
     try {
       final embedded = json['_embedded'] as Map<String, dynamic>?;
       final media = embedded?['wp:featuredmedia'] as List?;
@@ -60,6 +71,7 @@ class Post {
       content: (json['content'] as Map?)?['rendered'] as String? ?? '',
       link: json['link'] as String? ?? '',
       imageUrl: imageUrl,
+      authorName: authorName,
     );
   }
 }

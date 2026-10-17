@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/post.dart';
+import '../widgets/image_viewer.dart';
 
 class ArticleScreen extends StatelessWidget {
   final Post post;
@@ -16,6 +17,12 @@ class ArticleScreen extends StatelessWidget {
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     }
+  }
+
+  void _openImage(BuildContext context, String url) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => ImageViewerScreen(imageUrl: url)),
+    );
   }
 
   @override
@@ -39,12 +46,16 @@ class ArticleScreen extends StatelessWidget {
             ],
             flexibleSpace: FlexibleSpaceBar(
               background: post.imageUrl != null
-                  ? CachedNetworkImage(
-                      imageUrl: post.imageUrl!,
-                      fit: BoxFit.cover,
-                      placeholder: (_, __) => Container(color: Colors.white10),
-                      errorWidget: (_, __, ___) =>
-                          Container(color: Colors.white10),
+                  ? GestureDetector(
+                      onTap: () => _openImage(context, post.imageUrl!),
+                      child: CachedNetworkImage(
+                        imageUrl: post.imageUrl!,
+                        fit: BoxFit.cover,
+                        placeholder: (_, __) =>
+                            Container(color: Colors.white10),
+                        errorWidget: (_, __, ___) =>
+                            Container(color: Colors.white10),
+                      ),
                     )
                   : Container(
                       decoration: const BoxDecoration(
@@ -73,6 +84,17 @@ class ArticleScreen extends StatelessWidget {
                   const SizedBox(height: 8),
                   Row(
                     children: [
+                      if (post.authorName.isNotEmpty) ...[
+                        const Icon(Icons.person,
+                            size: 14, color: Colors.white38),
+                        const SizedBox(width: 4),
+                        Text(
+                          post.authorName,
+                          style: const TextStyle(
+                              color: Color(0xFFFF7AA8), fontSize: 12),
+                        ),
+                        const SizedBox(width: 12),
+                      ],
                       const Icon(Icons.access_time,
                           size: 14, color: Colors.white38),
                       const SizedBox(width: 4),
@@ -119,6 +141,14 @@ class ArticleScreen extends StatelessWidget {
                         return true;
                       }
                       return false;
+                    },
+                    onTapImage: (imageMetadata) {
+                      final sources = imageMetadata.sources;
+                      final url =
+                          sources.isNotEmpty ? sources.first.url : null;
+                      if (url != null && url.isNotEmpty) {
+                        _openImage(context, url);
+                      }
                     },
                   ),
                   const SizedBox(height: 24),
